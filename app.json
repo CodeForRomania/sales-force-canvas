@@ -1,0 +1,24 @@
+{
+  "name": "SF dream",
+  "description": "SF Dream integration",
+  "repository": "https://git.heroku.com/cafeconcafe.git",
+  "scripts": {
+    "postdeploy": "node index.js"
+  },
+  "env": {
+    "CUSTOMER_KEY": {
+      "required": true,
+    }
+    "CUSTOMER_SECTRET": {
+      "required": true,
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
