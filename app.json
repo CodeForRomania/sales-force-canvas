@@ -1,22 +1,20 @@
 {
-  "name": "SF dream",
-  "description": "SF Dream integration",
-  "repository": "https://git.heroku.com/cafeconcafe.git",
+  "name": "sales-force-canvas",
+  "description": "SalesForce Canvas Integration",
   "scripts": {
-    "postdeploy": "node index.js"
+    "postdeploy": "yarn start"
   },
   "env": {
     "CUSTOMER_KEY": {
-      "required": true,
-    }
+      "required": true
+    },
     "CUSTOMER_SECTRET": {
-      "required": true,
+      "required": true
     }
   },
   "formation": {
   },
   "addons": [
-
   ],
   "buildpacks": [
 
