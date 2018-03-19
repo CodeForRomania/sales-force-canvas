@@ -6,16 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var index = require('./routes/index');
 var canvas = require('./routes/canvas');
 var oauth = require('./routes/oauth');
 var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
+// Set HTML engine
 app.set('view engine','html');
-// Set HTML engine**
 
 
 // uncomment after placing your favicon in /public
@@ -30,15 +28,13 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(
   session(
     {
-      secret: 'ssshhhhh',
+      secret: 'my-secret-sauce',
       resave: false,
       saveUninitialized: true,
       cookie: { secure: true }
     }
   )
 );
-
-//app.use('/', index);
 
 app.use('/canvas', canvas);
 app.use('/oauth', oauth);
