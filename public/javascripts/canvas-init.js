@@ -12,7 +12,7 @@
       var firstName = result.context.user.firstName
       var sfContext = JSON.stringify(result.context, null, 2)
       localStorage.setItem('sfContext', sfContext)
-      consooe.log(sfContext)
+      console.log(sfContext)
     }
 
     function windowResize(e) {
