@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import Chatbox from './components/Chatbox'
+import Sidebar from './components/Sidebar'
 import './App.css'
 
 class App extends Component {
@@ -11,7 +12,7 @@ class App extends Component {
     content: ''
   }
   componentDidMount() {
-    const from = window.prompt('username')
+    const from = `cafe${Math.floor(Math.random(10) * 10)}`
     from && this.setState({ from })
     this._subscribeToNewChats()
   }
@@ -51,11 +52,14 @@ class App extends Component {
   }
   render() {
     const allChats = this.props.allChatsQuery.allChats || []
-    return (
-      <div className="">
+    return [
+      <div className="chat-container" key="app">
+        <Sidebar />
         <div className="container">
           <h2>Chats</h2>
-          {allChats.map(message => <Chatbox key={message.id} message={message} />)}
+          <div className="messageList">
+            {allChats.map(message => <Chatbox key={message.id} message={message} />)}
+          </div>
           <input
             value={this.state.content}
             onChange={e => this.setState({ content: e.target.value })}
@@ -64,8 +68,9 @@ class App extends Component {
             onKeyPress={this._createChat}
           />
         </div>
-      </div>
-    )
+      </div>,
+      <div key="log" className="sfQueryResult" />
+    ]
   }
 }
 

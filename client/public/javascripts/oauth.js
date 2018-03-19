@@ -1,13 +1,10 @@
-(function(window) {
-  'use strict';
+;(function(window) {
+  window.sizeSfCanvasContent()
 
-  window.sizeSfCanvasContent();
-  
-  function logout(){
-    document.getElementById('logout').blur();
-    cnvService.logout(true);
+  function logout() {
+    document.getElementById('logout').blur()
+    cnvService.logout(true)
   }
 
-  window.logout = logout;
-
-}(window));
+  window.logout = logout
+})(window)
