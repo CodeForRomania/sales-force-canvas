@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /**
 * Copyright (c) 2014, salesforce.com, inc.
 * All rights reserved.

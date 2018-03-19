@@ -4,6 +4,8 @@ import gql from 'graphql-tag'
 
 import Chatbox from './components/Chatbox'
 import Sidebar from './components/Sidebar'
+import { initializeSfCanvas, cnvService } from './utils/salesforce'
+
 import './App.css'
 
 class App extends Component {
@@ -11,6 +13,13 @@ class App extends Component {
     from: 'codebeast',
     content: ''
   }
+
+  componentWillMount() {
+    // initialize salesforce
+    const context = initializeSfCanvas()
+    console.log(context)
+  }
+
   componentDidMount() {
     const from = `cafe${Math.floor(Math.random(10) * 10)}`
     from && this.setState({ from })
