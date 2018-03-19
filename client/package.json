@@ -1,0 +1,39 @@
+{
+  "name": "graphql-chat",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=9.4.0",
+    "npm": "5.6.0",
+    "yarn": "1.5.1"
+  },
+  "devDependencies": {
+    "eslint": "4.18.2",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-react": "7.7.0",
+    "husky": "^0.14.3",
+    "prettier": "1.11.1",
+    "react-scripts": "1.0.17"
+  },
+  "dependencies": {
+    "apollo-client-preset": "^1.0.6",
+    "apollo-link-ws": "^1.0.4",
+    "graphql": "^0.12.3",
+    "graphql-tag": "^2.6.1",
+    "react": "^16.2.0",
+    "react-apollo": "^2.0.4",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17",
+    "subscriptions-transport-ws": "^0.9.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && mv build ../public",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src --quiet",
+    "lint:file": "eslint --quiet",
+    "lint:fix": "eslint ./src --fix --cache"
+  }
+}
