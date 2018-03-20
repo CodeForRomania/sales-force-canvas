@@ -19,7 +19,6 @@ class App extends Component {
   componentWillMount = async () => {
     try {
       const context = await initializeSfCanvas()
-      console.log(context)
 
       var query = 'Select Id, Name, UserName, SmallPhotoUrl From User Limit 10'
       const { payload: { records: users } } = await cnvService.querySalesforce(query)
@@ -57,7 +56,6 @@ class App extends Component {
           ...previous,
           allChats: newChatLinks
         }
-        console.log(result, previous, subscriptionData)
         return result
       }
     })

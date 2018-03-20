@@ -35,8 +35,6 @@ class Sidebar extends React.Component {
   render() {
     const { currentUser, users } = this.props
 
-    console.log(users)
-
     return (
       <div id="sidebar">
         <CurrentUser currentUser={currentUser} />
