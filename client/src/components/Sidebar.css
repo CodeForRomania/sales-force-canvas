@@ -3,7 +3,6 @@ div#sidebar {
   min-width: 30%;
   border: 1px dotted #3FB1DE;
   color: #999;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.02)); /*Standard*/
 }
 
 .currentUser, .user {

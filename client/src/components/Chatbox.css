@@ -25,13 +25,13 @@ h5 {
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  background-color:  rgba(0,0,0,0.09);
   border: 1px solid rgba(150,150,150,0.3);
   border-bottom-color: rgba(125,125,125,0.3);
   box-shadow:0 2px 3px rgba(0,0,0,0.06);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.09), rgba(0,0,0,0.02)); /*Standard*/
 }
 .chat-box.me .chat-message {
-  background-color:  rgba(0,0,0,0.02);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.12)); /*Standard*/
 }
 .chat-box.me .chat-message h5{
 }
