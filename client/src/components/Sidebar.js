@@ -15,13 +15,13 @@ const CurrentUser = ({ currentUser: { userName, userType, profileThumbnailUrl } 
   )
 }
 
-const User = ({ Username, SmallPhotoUrl, attributes: { type } }) => {
+const User = ({ Id, Username, SmallPhotoUrl, attributes: { type, url } }) => {
   const openProfile = id => () => {
     console.log(id)
-    console.log(cnv)
+    cnv.navigate(id, url, false)
   }
   return (
-    <div className="user" onClick={openProfile(0)}>
+    <div className="user" onClick={openProfile(Id)}>
       <img src={SmallPhotoUrl} alt="profile" />
       <div>
         <h2>{Username}</h2>
