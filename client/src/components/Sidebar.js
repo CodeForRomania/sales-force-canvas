@@ -3,10 +3,14 @@ import { cnv } from '../utils/salesforce'
 
 import './Sidebar.css'
 
-const CurrentUser = ({ currentUser: { userName, userType, profileThumbnailUrl } }) => {
+const openProfile = id => () => {
+  cnv.navigate(id, null, true)
+}
+
+const CurrentUser = ({ currentUser: { userId, userName, userType, profileThumbnailUrl } }) => {
   return (
     <div className="currentUser">
-      <img src={profileThumbnailUrl} alt="profile" />
+      <img src={profileThumbnailUrl} alt="profile" onClick={openProfile(userId)} />
       <div>
         <h1>{userName}</h1>
         <h6>{userType}</h6>
@@ -16,10 +20,6 @@ const CurrentUser = ({ currentUser: { userName, userType, profileThumbnailUrl } 
 }
 
 const User = ({ Id, Username, SmallPhotoUrl, attributes: { type, url } }) => {
-  const openProfile = id => () => {
-    console.log(id)
-    cnv.navigate(id, url, false)
-  }
   return (
     <div className="user" onClick={openProfile(Id)}>
       <img src={SmallPhotoUrl} alt="profile" />
