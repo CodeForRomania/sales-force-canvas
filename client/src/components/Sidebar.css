@@ -22,11 +22,14 @@ div#sidebar {
 .user {
   background: none;
   border: none;
+  height: 60px;
+  padding: 5px;
 }
 .currentUser img, .user img {
   border-radius: 50% 50%;
   width: 50px;
   height: 50px;
+  cursor: pointer;
 
 }
 .currentUser h1 {
@@ -36,8 +39,9 @@ div#sidebar {
 .user h2 {
   font-size: 14px;
 }
-.user h6 {
+.user div {
   font-size: 12px;
+  align-self: flex-end;
 }
 #sidebar ul {
   overflow-y: auto;
@@ -45,6 +49,7 @@ div#sidebar {
   padding: 15px;
   margin: 0;
   width: 100%;
+  height: calc(100% - 120px);
 }
 #sidebar ul li {
   margin: 0;
@@ -53,4 +58,9 @@ div#sidebar {
 }
 #sidebar li:nth-child(1) {
   padding-top: 20px;
+}
+#sidebar .user .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

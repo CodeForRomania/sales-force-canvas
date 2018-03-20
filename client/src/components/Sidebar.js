@@ -23,7 +23,7 @@ const User = ({ Id, Username, SmallPhotoUrl, attributes: { type, url } }) => {
   return (
     <div className="user" onClick={openProfile(Id)}>
       <img src={SmallPhotoUrl} alt="profile" />
-      <div>
+      <div class="info">
         <h2>{Username}</h2>
         <h6>{type}</h6>
       </div>
