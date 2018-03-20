@@ -60,4 +60,7 @@ div#sidebar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
 }
