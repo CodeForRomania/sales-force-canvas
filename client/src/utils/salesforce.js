@@ -1,5 +1,5 @@
 /*global Sfdc*/
-var cnv = (function(storage) {
+export const cnv = (function(storage) {
   const initialize = () =>
     new Promise((resolve, reject) => {
       //we are logged in and can retrieve and decode our signed request for our calls to salesforce.

@@ -1,4 +1,5 @@
 import React from 'react'
+import { cnv } from '../utils/salesforce'
 
 import './Sidebar.css'
 
@@ -15,8 +16,12 @@ const CurrentUser = ({ currentUser: { userName, userType, profileThumbnailUrl } 
 }
 
 const User = ({ Username, SmallPhotoUrl, attributes: { type } }) => {
+  const openProfile = id => () => {
+    console.log(id)
+    console.log(cnv)
+  }
   return (
-    <div className="user">
+    <div className="user" onClick={openProfile(0)}>
       <img src={SmallPhotoUrl} alt="profile" />
       <div>
         <h2>{Username}</h2>
@@ -29,6 +34,8 @@ const User = ({ Username, SmallPhotoUrl, attributes: { type } }) => {
 class Sidebar extends React.Component {
   render() {
     const { currentUser, users } = this.props
+
+    console.log(users)
 
     return (
       <div id="sidebar">
