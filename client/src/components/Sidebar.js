@@ -13,7 +13,7 @@ const CurrentUser = ({ currentUser: { userId, userName, userType, profileThumbna
       <img src={profileThumbnailUrl} alt="profile" onClick={openProfile(userId)} />
       <div>
         <h1>{userName}</h1>
-        <h6>{userType}</h6>
+        <div>{userType}</div>
       </div>
     </div>
   )
