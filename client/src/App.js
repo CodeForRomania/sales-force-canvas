@@ -11,18 +11,30 @@ import './App.css'
 class App extends Component {
   state = {
     from: 'codebeast',
+    currentUser: {},
+    users: [],
     content: ''
   }
 
-  componentWillMount() {
-    // initialize salesforce
-    const context = initializeSfCanvas()
-    console.log(context)
+  componentWillMount = async () => {
+    try {
+      const context = await initializeSfCanvas()
+      console.log(context)
+
+      var query = 'Select Id, Name, UserName, SmallPhotoUrl From User Limit 10'
+      const { payload: { records: users } } = await cnvService.querySalesforce(query)
+
+      this.setState({
+        from: context.user.userName,
+        currentUser: { ...context.user },
+        users
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   componentDidMount() {
-    const from = `cafe${Math.floor(Math.random(10) * 10)}`
-    from && this.setState({ from })
     this._subscribeToNewChats()
   }
   _subscribeToNewChats = () => {
@@ -61,13 +73,17 @@ class App extends Component {
   }
   render() {
     const allChats = this.props.allChatsQuery.allChats || []
-    return [
+    const { currentUser, users, from } = this.state
+
+    return (
       <div className="chat-container" key="app">
-        <Sidebar />
+        <Sidebar currentUser={currentUser} users={users} />
         <div className="container">
-          <h2>Chats</h2>
+          <div className="headerChat">
+            <h2>Chats</h2>
+          </div>
           <div className="messageList">
-            {allChats.map(message => <Chatbox key={message.id} message={message} />)}
+            {allChats.map(message => <Chatbox key={message.id} message={message} me={from} />)}
           </div>
           <input
             value={this.state.content}
@@ -77,9 +93,8 @@ class App extends Component {
             onKeyPress={this._createChat}
           />
         </div>
-      </div>,
-      <div key="log" className="sfQueryResult" />
-    ]
+      </div>
+    )
   }
 }
 

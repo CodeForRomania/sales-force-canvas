@@ -1,232 +1,69 @@
-export const initializeSfCanvas = () => {
-  //initialize our canvas library, this will resize the canvas app and force a resize
-
-  var resizeTimeout
-  const confirmInitialization = result => {
-    var sfContext = JSON.stringify(result.context, null, 2)
-    localStorage.setItem('sfContext', sfContext)
-  }
-
-  const resizeSfCanvasBody = () => {
-    var cnvAppDiv = document.getElementById('root')
-    var height = window.height
-    var width = cnvAppDiv.offsetWidth
-    var sideBarWidth = document.getElementById('sidebar').offsetWidth
-    document.body.style.height = height + 'px'
-    document.getElementById('container').style.width = width - sideBarWidth + 'px'
-  }
-
-  const sizeSfCanvasContent = () => {
-    // ignore resize events as long as an actualResizeHandler execution is in the queue
-    if (!resizeTimeout) {
-      resizeTimeout = setTimeout(function() {
-        resizeTimeout = null
-        resizeSfCanvasBody()
-        // The actualResizeHandler will execute at a rate of 15fps
-      }, 200)
-    }
-  }
-
-  const windowResize = e => {
-    //Compare this to event target to make sure this isn't an event that has bubbled up
-    if (this === e.target) {
-      // ignore resize events as long as an actualResizeHandler execution is in the queue
-      if (!resizeTimeout) {
-        resizeTimeout = setTimeout(function() {
-          resizeTimeout = null
-          resizeSfCanvasBody()
-          // The actualResizeHandler will execute at a rate of 15fps
-        }, 200)
-      }
-    }
-  }
-
-  cnvService.initialize(confirmInitialization)
-
-  window.resizeSfCanvasBody = resizeSfCanvasBody
-  window.sizeSfCanvasContent = sizeSfCanvasContent
-
-  //On window resize => resize the app
-  window.onresize = windowResize
-}
-
-export const cnvService = (function() {
-  return {
-    initialize: initialize,
-    login: cnv.login,
-    logout: cnv.logout,
-    querySalesforce: querySalesforce,
-    editSalesforce: editSalesforce,
-    deleteSalesforce: deleteSalesforce
-  }
-
-  function querySalesforce(query, callback, recordsOnly) {
-    if (recordsOnly !== false) {
-      recordsOnly = true
-    }
-
-    cnv.querySalesforce(query, process)
-
-    function process(result) {
-      if (result.status === 0) {
-        alert('No Response from Salesforce, Check Internet Connection.')
-        return
-      } else if (result.status === 200) {
-        //success
-        if (recordsOnly) {
-          callback(result.payload.records)
-        } else {
-          callback(result)
-        }
-      } else if (result.payload && result.payload[0] && result.payload[0].errorCode) {
-        if (recordsOnly) {
-          alert(result.payload[0].errorCode)
-        } else {
-          callback(result)
-        }
-      }
-    }
-  }
-
-  function editSalesforce(object, request, callback) {
-    cnv.editSalesforce(object, request, process)
-    function process(result) {
-      if (result.errors[0]) {
-        alert(result.errorCode[0].errors[0].errorCode)
-      } else {
-        callback(result.id)
-      }
-    }
-  }
-
-  function deleteSalesforce(object, request, callback) {
-    cnv.deleteSalesforce(object, request, process)
-    function process(result) {
-      if (result && result[0].errorCode) {
-        alert(result[0].errorCode)
-        callback(true)
-      } else {
-        callback(result[0].success)
-      }
-    }
-  }
-
-  function initialize(callback) {
-    cnv.initialize(checkCanvasLoad)
-    function checkCanvasLoad(result) {
-      if (result.errorCode) {
-        alert(result.errorCode)
-      } else if (callback) {
-        callback(result)
-      }
-    }
-  }
-})()
-
-/* eslint-disable */
+/*global Sfdc*/
 var cnv = (function(storage) {
-  return {
-    initialize: initialize,
-    login: login,
-    logout: logout,
-    refresh: refresh,
-    querySalesforce: querySalesforce,
-    editSalesforce: editSalesforce,
-    deleteSalesforce: deleteSalesforce,
-    publish: publish,
-    navigate: navigate
-  }
-
-  function initialize(callback) {
-    //we are logged in and can retrieve and decode our signed request for our calls to salesforce.
-    Sfdc.canvas.client.refreshSignedRequest(function(data) {
-      if (data.status === 200) {
-        var signedRequest = data.payload.response
-        var part = signedRequest.split('.')[1]
-        //decode and save for this session.
-        storage.sr = JSON.parse(Sfdc.canvas.decode(part))
-        //publish an event to resize the outer frame, now that we're loaded.
-        publish('cnvstart.resize')
-        if (callback) {
-          callback(storage.sr)
-        }
-      } else if (data.status === 0 && callback) {
-        result = {
-          errorCode: 'No response from Salesforce. Check Internet Connection.',
-          message: 'No response from Salesforce. Check Internet Connection.'
-        }
-        callback(result)
-        return
-      } else if (data.payload[0] && data.payload[0].errorCode && callback) {
-        result = {
-          errorCode: data.payload[0].errorCode,
-          message: 'Salesforce Error: ' + cleanError(data.payload[0].message)
-        }
-        callback(result)
-        return
-      }
-    })
-  }
-
-  function querySalesforce(query, callback) {
-    //clean our query
-    var newQuery = query.replace(/( |\r|\n)/g, '+')
-
-    //retrieve our url from the SR object
-    var url = storage.sr.context.links.restUrl + 'query/?q=' + newQuery
-
-    var sr = storage.sr
-    if (!storage.sr.client.oauthToken) {
-      alert('Error: Access Token Not Available.')
-      return
-    }
-
-    //Make first call
-    Sfdc.canvas.client.ajax(url, {
-      client: storage.sr.client,
-      success: function(data) {
-        if (data.status && data.payload) {
-          process(data)
-        } else {
-          var result = {
-            payload: [
-              {
-                errorCode: 'No response from Salesforce. Check Internet Connection.',
-                message: 'No response from Salesforce. Check Internet Connection.'
-              }
-            ]
+  const initialize = () =>
+    new Promise((resolve, reject) => {
+      //we are logged in and can retrieve and decode our signed request for our calls to salesforce.
+      Sfdc.canvas.client.refreshSignedRequest(function(data) {
+        if (data.status === 200) {
+          var signedRequest = data.payload.response
+          var part = signedRequest.split('.')[1]
+          //decode and save for this session.
+          storage.sr = JSON.parse(Sfdc.canvas.decode(part))
+          //publish an event to resize the outer frame, now that we're loaded.
+          publish('cnvstart.resize')
+          return resolve(storage.sr)
+        } else if (data.status === 0) {
+          const result = {
+            errorCode: 'No response from Salesforce. Check Internet Connection.',
+            message: 'No response from Salesforce. Check Internet Connection.'
           }
-          callback(result)
-          return
+          return reject(result)
+        } else if (data.payload[0] && data.payload[0].errorCode) {
+          const result = {
+            errorCode: data.payload[0].errorCode,
+            message: 'Salesforce Error: ' + JSON.stringify(data.payload[0].message)
+          }
+          return reject(result)
         }
-      }
+      })
     })
 
-    function process(d) {
-      if (d.done === false) {
-        //additional results initiate next call
-        var nUrl = d.nextRecordsUrl
-        Sfdc.canvas.client.ajax(nUrl, {
-          client: sr.client,
-          success: function(data) {
-            if (data.status && data.payload) {
-              process(data)
-            } else {
-              var result = [
+  const querySalesforce = query =>
+    new Promise((resolve, reject) => {
+      //clean our query
+      var newQuery = query.replace(/( |\r|\n)/g, '+')
+
+      //retrieve our url from the SR object
+      var url = storage.sr.context.links.restUrl + 'query/?q=' + newQuery
+
+      if (!storage.sr.client.oauthToken) {
+        alert('Error: Access Token Not Available.')
+        return
+      }
+
+      //Make first call
+      Sfdc.canvas.client.ajax(url, {
+        client: storage.sr.client,
+        success: data => {
+          if (data.status && data.payload) {
+            return resolve(data)
+          } else {
+            var result = {
+              payload: [
                 {
                   errorCode: 'No response from Salesforce. Check Internet Connection.',
                   message: 'No response from Salesforce. Check Internet Connection.'
                 }
               ]
-              callBack(result)
-              return
             }
+            return reject(result)
           }
-        })
-      }
-      callback(d)
-    }
-  }
+        },
+        error: error => {
+          reject(error)
+        }
+      })
+    })
 
   function editSalesforce(object, request, callback) {
     var url
@@ -388,6 +225,7 @@ var cnv = (function(storage) {
     logout()
 
     //if loginUrl is a parameter, then we're in the oauth page and can use the parameter to determine our target
+    /* eslint-disable no-restricted-globals */
     var params = decodeURIComponent(location.search)
     if (params.indexOf('loginUrl') !== -1) {
       url = decodeURIComponent(location.search.split('=')[1])
@@ -426,7 +264,112 @@ var cnv = (function(storage) {
     }
     request.send(null)
   }
+
+  return {
+    initialize,
+    login: login,
+    logout: logout,
+    refresh: refresh,
+    querySalesforce: querySalesforce,
+    editSalesforce: editSalesforce,
+    deleteSalesforce: deleteSalesforce,
+    publish: publish,
+    navigate: navigate
+  }
 })(
   //settings session storage for the signed request, etc.
   {}
 )
+
+export const cnvService = (function(cnv) {
+  const querySalesforce = async query => {
+    return await cnv.querySalesforce(query)
+  }
+
+  function editSalesforce(object, request, callback) {
+    cnv.editSalesforce(object, request, process)
+    function process(result) {
+      if (result.errors[0]) {
+        alert(result.errorCode[0].errors[0].errorCode)
+      } else {
+        callback(result.id)
+      }
+    }
+  }
+
+  function deleteSalesforce(object, request, callback) {
+    cnv.deleteSalesforce(object, request, process)
+    function process(result) {
+      if (result && result[0].errorCode) {
+        alert(result[0].errorCode)
+        callback(true)
+      } else {
+        callback(result[0].success)
+      }
+    }
+  }
+
+  return {
+    initialize: cnv.initialize,
+    login: cnv.login,
+    logout: cnv.logout,
+    querySalesforce: querySalesforce,
+    editSalesforce: editSalesforce,
+    deleteSalesforce: deleteSalesforce
+  }
+})(cnv)
+
+export const initializeSfCanvas = async () => {
+  //initialize our canvas library, this will resize the canvas app and force a resize
+
+  var resizeTimeout
+
+  const resizeSfCanvasBody = () => {
+    var cnvAppDiv = document.getElementById('root')
+    var height = window.height
+    var width = cnvAppDiv.offsetWidth
+    var sideBarWidth = document.getElementById('sidebar').offsetWidth
+    document.body.style.height = height + 'px'
+    document.getElementById('container').style.width = width - sideBarWidth + 'px'
+  }
+
+  const sizeSfCanvasContent = () => {
+    // ignore resize events as long as an actualResizeHandler execution is in the queue
+    if (!resizeTimeout) {
+      resizeTimeout = setTimeout(function() {
+        resizeTimeout = null
+        resizeSfCanvasBody()
+        // The actualResizeHandler will execute at a rate of 15fps
+      }, 200)
+    }
+  }
+
+  const windowResize = e => {
+    //Compare this to event target to make sure this isn't an event that has bubbled up
+    if (this === e.target) {
+      // ignore resize events as long as an actualResizeHandler execution is in the queue
+      if (!resizeTimeout) {
+        resizeTimeout = setTimeout(function() {
+          resizeTimeout = null
+          resizeSfCanvasBody()
+          // The actualResizeHandler will execute at a rate of 15fps
+        }, 200)
+      }
+    }
+  }
+
+  window.resizeSfCanvasBody = resizeSfCanvasBody
+  window.sizeSfCanvasContent = sizeSfCanvasContent
+
+  //On window resize => resize the app
+  window.onresize = windowResize
+  try {
+    const initialized = await cnvService.initialize()
+    var sfContext = JSON.stringify(initialized.context, null, 2)
+    localStorage.setItem('sfContext', sfContext)
+    return initialized.context
+  } catch (error) {
+    console.log('Error init it', error)
+    return error
+  }
+}

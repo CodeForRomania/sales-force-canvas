@@ -2,11 +2,11 @@ import React from 'react'
 
 import './Chatbox.css'
 
-const Chatbox = ({ message }) => (
-  <div className="chat-box">
+const Chatbox = ({ message, me }) => (
+  <div className={`chat-box ${message.from === me ? 'me' : ''}`}>
     <div className="chat-message">
-      <h5>{message.from}</h5>
       <p>{message.content}</p>
+      <h5>{message.from}</h5>
     </div>
   </div>
 )

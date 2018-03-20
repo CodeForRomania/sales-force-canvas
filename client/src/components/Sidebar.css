@@ -1,5 +1,55 @@
 div#sidebar {
-  width: 20%;
-  background: #3FB1DE;
+  width: auto;
+  min-width: 30%;
   overflow-y: auto;
+  border: 1px dotted #3FB1DE;
+  color: #999;
+}
+
+.currentUser, .user {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-itemes: center;
+  justify-item: flex-start;
+  height: 100px;
+  background-color:  rgba(0,0,0,0.02);
+  border: 1px solid rgba(150,150,150,0.3);
+  border-bottom-color: rgba(125,125,125,0.3);
+  box-shadow:0 2px 3px rgba(0,0,0,0.06);
+  margin-bottom: 5px;
+
+}
+.user {
+  background: none;
+  border: none;
+}
+.currentUser img, .user img {
+  border-radius: 50% 50%;
+  width: 50px;
+  height: 50px;
+
+}
+.currentUser h1 {
+  font-size: 18px;
+  margin: 8px;
+}
+.user h2 {
+  font-size: 14px;
+}
+.user h6 {
+  font-size: 12px;
+}
+#sidebar ul {
+  list-style: none;
+  padding: 15px;
+  margin: 0;
+  width: 100%;
+}
+#sidebar ul li {
+  margin: 0;
+  padding: 0;
+}
+#sidebar li:nth-child(1) {
+  padding-top: 20px;
 }

@@ -2,7 +2,7 @@ Arguments:
   /Users/rmoraru/.nvm/versions/node/v9.4.0/bin/node /Users/rmoraru/.yarn/bin/yarn.js build
 
 PATH: 
-  /Users/rmoraru/work/scripts:/Users/rmoraru/.yarn/bin:/Users/rmoraru/.nvm/versions/node/v9.4.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Users/rmoraru/Library/Python/2.7/bin
+  /Users/rmoraru/work/projects/sales-force-canvas/node_modules/.bin:/Users/rmoraru/.config/yarn/link/node_modules/.bin:/Users/rmoraru/work/projects/sales-force-canvas/node_modules/.bin:/Users/rmoraru/.config/yarn/link/node_modules/.bin:/Users/rmoraru/.nvm/versions/node/v9.4.0/libexec/lib/node_modules/npm/bin/node-gyp-bin:/Users/rmoraru/.nvm/versions/node/v9.4.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/rmoraru/.nvm/versions/node/v9.4.0/bin/node_modules/npm/bin/node-gyp-bin:/Users/rmoraru/work/scripts:/Users/rmoraru/.yarn/bin:/Users/rmoraru/.nvm/versions/node/v9.4.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Users/rmoraru/Library/Python/2.7/bin
 
 Yarn version: 
   1.6.0-20180315.1219
@@ -45,7 +45,7 @@ npm manifest:
     },
     "scripts": {
       "start": "react-scripts start",
-      "build": "react-scripts build && rm -rf ../public && mv -f build/* ../public",
+      "build": "react-scripts build && rm -rf ../public && mv ./build ../public",
       "test": "react-scripts test --env=jsdom",
       "eject": "react-scripts eject",
       "lint": "eslint ./src --quiet",
@@ -7593,8 +7593,8 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 64
-  Command: react-scripts build && rm -rf ../public && mv -f build/* ../public
+  Exit code: 1
+  Command: react-scripts build && rm -rf ../public && mv ./build ../public
   Arguments: 
   Directory: /Users/rmoraru/work/projects/sales-force-canvas/client
   Output:
