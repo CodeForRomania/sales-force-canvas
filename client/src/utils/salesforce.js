@@ -322,51 +322,53 @@ export const cnvService = (function(cnv) {
 export const initializeSfCanvas = async () => {
   //initialize our canvas library, this will resize the canvas app and force a resize
 
-  // var resizeTimeout
+  var resizeTimeout
 
-  // const resizeSfCanvasBody = () => {
-  //   var cnvAppDiv = document.getElementById('root')
-  //   var height = window.height
-  //   var width = cnvAppDiv.offsetWidth
-  //   var sideBarWidth = document.getElementById('sidebar').offsetWidth
-  //   document.body.style.height = height + 'px'
-  //   document.getElementById('container').style.width = width - sideBarWidth + 'px'
-  // }
-  //
-  // const sizeSfCanvasContent = () => {
-  //   // ignore resize events as long as an actualResizeHandler execution is in the queue
-  //   if (!resizeTimeout) {
-  //     resizeTimeout = setTimeout(function() {
-  //       resizeTimeout = null
-  //       resizeSfCanvasBody()
-  //       // The actualResizeHandler will execute at a rate of 15fps
-  //     }, 200)
-  //   }
-  // }
+  const resizeSfCanvasBody = () => {
+    var cnvAppDiv = document.getElementById('root')
+    var height = window.height
+    var width = cnvAppDiv.offsetWidth
+    var sideBarWidth = document.getElementById('sidebar').offsetWidth
+    document.body.style.height = height + 'px'
+    document.getElementById('container').style.width = width - sideBarWidth + 'px'
+  }
 
-  // const windowResize = e => {
-  //   //Compare this to event target to make sure this isn't an event that has bubbled up
-  //   if (this === e.target) {
-  //     // ignore resize events as long as an actualResizeHandler execution is in the queue
-  //     if (!resizeTimeout) {
-  //       resizeTimeout = setTimeout(function() {
-  //         resizeTimeout = null
-  //         // resizeSfCanvasBody()
-  //         // The actualResizeHandler will execute at a rate of 15fps
-  //       }, 200)
-  //     }
-  //   }
-  // }
+  const sizeSfCanvasContent = () => {
+    // ignore resize events as long as an actualResizeHandler execution is in the queue
+    if (!resizeTimeout) {
+      resizeTimeout = setTimeout(function() {
+        resizeTimeout = null
+        resizeSfCanvasBody()
+        // The actualResizeHandler will execute at a rate of 15fps
+      }, 200)
+    }
+  }
 
-  // window.resizeSfCanvasBody = resizeSfCanvasBody
-  // window.sizeSfCanvasContent = sizeSfCanvasContent
+  const windowResize = e => {
+    //Compare this to event target to make sure this isn't an event that has bubbled up
+    if (this === e.target) {
+      // ignore resize events as long as an actualResizeHandler execution is in the queue
+      if (!resizeTimeout) {
+        resizeTimeout = setTimeout(function() {
+          resizeTimeout = null
+          resizeSfCanvasBody()
+          // The actualResizeHandler will execute at a rate of 15fps
+        }, 200)
+      }
+    }
+  }
 
-  //On window resize => resize the app
-  // window.onresize = windowResize
+  window.resizeSfCanvasBody = resizeSfCanvasBody
+  window.sizeSfCanvasContent = sizeSfCanvasContent
+
+  //  On window resize => resize the app
+  window.onresize = windowResize
+
   try {
     const initialized = await cnvService.initialize()
     var sfContext = JSON.stringify(initialized.context, null, 2)
     localStorage.setItem('sfContext', sfContext)
+    sizeSfCanvasContent()
     return initialized.context
   } catch (error) {
     console.log('Error init it', error)
