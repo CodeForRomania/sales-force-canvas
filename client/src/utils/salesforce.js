@@ -326,8 +326,8 @@ export const initializeSfCanvas = async () => {
 
   const resizeSfCanvasBody = () => {
     var cnvAppDiv = document.getElementById('root')
-    cnvAppDiv.style.width = 'calc(100vw)'
-    cnvAppDiv.style.height = 'calc(100vh)'
+    cnvAppDiv.style.width = '1200px'
+    cnvAppDiv.style.height = '700px'
   }
 
   const sizeSfCanvasContent = () => {
@@ -337,7 +337,7 @@ export const initializeSfCanvas = async () => {
         resizeTimeout = null
         resizeSfCanvasBody()
         // The actualResizeHandler will execute at a rate of 15fps
-      }, 200)
+      }, 1500)
     }
   }
 
