@@ -1,7 +1,5 @@
 <apex:page standardStylesheets="false" sideBar="false" controller="AlternateResource">
 
-    <apex:stylesheet value="{!URLFOR($Resource.style_resources,'styles/styles.css')}"/>
-
     <apex:outputPanel rendered="{! $User.UIThemeDisplayed == 'Theme4d' }">
         <apex:stylesheet value="{!URLFOR($Resource.style_resources,'styles/lightning.css')}"/>
     </apex:outputPanel>

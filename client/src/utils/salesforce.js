@@ -327,7 +327,7 @@ export const initializeSfCanvas = async () => {
   const resizeSfCanvasBody = () => {
     var cnvAppDiv = document.getElementById('root')
     cnvAppDiv.style.width = '1200px'
-    cnvAppDiv.style.height = '700px'
+    cnvAppDiv.style.height = '600px'
   }
 
   const sizeSfCanvasContent = () => {
