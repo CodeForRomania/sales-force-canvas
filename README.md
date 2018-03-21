@@ -1,6 +1,6 @@
 # Canvas Starter Kit
 
-This kit is designed for JavaScript developers who want to build a Salesforce app using the Force.com Canvas Framework. It can serve as starting point or template for building your own Canvas app and publishing it as a Managed Package on the AppExchange. This is a Node.js version of the 
+This kit is designed for JavaScript developers who want to build a Salesforce app using the Force.com Canvas Framework. It can serve as starting point or template for building your own Canvas app and publishing it as a Managed Package on the AppExchange. This is a Node.js version of the
 
 ### Help us out!
 
@@ -79,13 +79,13 @@ Please follow the following steps in order to re-create the kit app in your org.
 
    4. Enable OAuth Settings
 
-      1. For the Callback URL specify **https:/
+      1. For the Callback URL specify **https:/..../oauth
 
       2. Enable OAuth Scopes. If you're not sure what to do here, we recommend starting with **Access and manage your data** and **Access your basic information**
 
    5. Skip down to the 'Canvas App Settings' and check 'Force.com Canvas'
 
-      1. For the Canvas App URL, enter **https:/
+      1. For the Canvas App URL, enter **https:/..../canvas
 
       2. For Access Method, choose **Signed Request (POST)**
 
@@ -207,17 +207,6 @@ Please follow the following steps in order to re-create the kit app in your org.
 
    9. In the Visualforce Page List View, click on Security and enable the Profiles that have access to this page.
 
-8. **Create the Visualforce Tab**
-
-   1. Go To SetUp/User Interface/Tabs
-
-   2. Click New in the Visualforce Tab section
-
-   3. Name the Tab **Canvas Starter Kit**
-
-   4. Select a Tab style
-
-   5. Click Save
 
 ##### You should now be able to access the app as a Visualforce tab in Visualforce or Lightning!
 
