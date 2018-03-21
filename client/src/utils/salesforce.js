@@ -326,11 +326,8 @@ export const initializeSfCanvas = async () => {
 
   const resizeSfCanvasBody = () => {
     var cnvAppDiv = document.getElementById('root')
-    var height = window.height
-    var width = cnvAppDiv.offsetWidth
-    var sideBarWidth = document.getElementById('sidebar').offsetWidth
-    document.body.style.height = height + 'px'
-    document.getElementById('container').style.width = width - sideBarWidth + 'px'
+    cnvAppDiv.style.width = 'calc(100vw)'
+    cnvAppDiv.style.height = 'calc(100vh)'
   }
 
   const sizeSfCanvasContent = () => {
