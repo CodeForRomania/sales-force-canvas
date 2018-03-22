@@ -33,7 +33,7 @@ const User = ({ Id, Username, SmallPhotoUrl, attributes: { type, url } }) => {
 
 class Sidebar extends React.Component {
   render() {
-    const { currentUser, users } = this.props
+    const { currentUser = {}, users = [] } = this.props
 
     return (
       <div id="sidebar">

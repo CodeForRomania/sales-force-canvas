@@ -365,6 +365,8 @@ export const initializeSfCanvas = async () => {
     const initialized = await cnvService.initialize()
     var sfContext = JSON.stringify(initialized.context, null, 2)
     localStorage.setItem('sfContext', sfContext)
+    console.log(sfContext)
+    window.___cvn = cnv
     sizeSfCanvasContent()
     return initialized.context
   } catch (error) {
