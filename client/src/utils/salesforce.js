@@ -11,8 +11,9 @@ export const cnv = (function(storage) {
           storage.sr = JSON.parse(Sfdc.canvas.decode(part))
           //publish an event to resize the outer frame, now that we're loaded.
           publish('cnvstart.resize')
-          Sfdc.canvas.client.resize(storage.sr.client)
-          window.____a = storage.sr
+          setTimeout(() => {
+            Sfdc.canvas.client.resize(storage.sr.client, { width: '100%', height: '900px' })
+          }, 400)
           return resolve(storage.sr)
         } else if (data.status === 0) {
           const result = {
